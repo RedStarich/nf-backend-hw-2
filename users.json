@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "johndoe@gmail.com",
+        "city": "Almaty"
+    },
+    {
+        "id": 2,
+        "name": "Jane Doe",
+        "email": "janedoe@gmail.com",
+        "city": "Astana"
+    }
+]

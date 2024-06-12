@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <title>Test</title>
+  <style>
+    body {
+      background: #fcfcfc;
+    }
+  </style>
+</head>
+<body>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="#">Home</a>
+      <a class="p-2 text-dark" href="#">About</a>
+      <a class="p-2 text-dark" href="#">Contact</a>
+    </nav>
+    <a class="btn btn-outline-primary" href="#">Sign up</a>
+  </div>
+  <div class="container">
+    <div class="py-5 text-center">
+      <h2>Chat</h2>
+      <p class="lead">Chat with your friends</p>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <h3>Chat form</h3>
+        <form id="messForm">
+          <label for="name">Name</label>
+          <input type="text" name="name" placeholder="Enter name" class="form-control">
+          <br>
+          <label for="message">Message</label>
+          <textarea name="message" id="message" class="form-control" placeholder="Enter text"></textarea>
+          <br>
+          <input type="submit" class="btn btn-primary" value="Send">
+        </form>
+      </div>
+      <div class="col-6">
+        <h3>Messages</h3>
+        <div id="all_mess"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    $(function(){
+      const socket = io.connect();
+      const $name = $('#name');
+      const $messageForm = $('#messForm');
+      const $textarea = $('#message');
+      const $all_mess = $('#all_mess');
+
+      $messageForm.submit(function(e){
+        e.preventDefault();
+        const message = $textarea.val();
+        socket.emit('send message', { message: $textarea.val(), name: $name.val()});
+        $textarea.val('');
+      });
+
+      socket.on('add message', function(data){
+        $all_mess.append('<div><strong>' + data.name + '</strong>' + "  " + data.message + '</div>');
+      });
+    });
+  </script>
+</body>
+</html>
